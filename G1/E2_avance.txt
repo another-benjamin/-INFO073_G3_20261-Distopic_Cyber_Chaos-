@@ -1,0 +1,15 @@
+implementamos las mecanicas basicas:
+    -el mapa se muestra completo.
+    - Movimiento con W, A, S, D.
+    -El personaje no sale del mapa.
+hicimos los tres ejercicios de mecanicas mostradas en el powerpoint:
+    -obstaculos aleatorios
+    -manzanas con objetivo
+    -contador de pasos
+añadimos originalmente:
+    -manzanas que refrezcan el contador de pasos, estas seran descritas como baterias que nuestro personaje
+    tiene quer recolectar para no morir.
+    - otro tipo de manzanas el cual se debe recolectar, estas son descritas como llaves estas te hacen ganar el juego.
+    -pantallas personalizadas de inicio,intrucciones, victoria y derrota
+    -cambiamos el color del jugador
+    -añadimos musica al juego
