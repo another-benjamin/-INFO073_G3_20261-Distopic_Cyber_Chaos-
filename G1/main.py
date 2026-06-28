@@ -126,10 +126,10 @@ def dibujar_panel(screen, fuente, llaves):
     titulo = fuente.render("Cyborg", True, "white")
     screen.blit(titulo, (x, 30))
     
-    largo_txt = fuente.render(f"Llaves: {llaves}", True, "white")
+    largo_txt = fuente.render(f"baterias: {llaves}", True, "white")
     screen.blit(largo_txt, (x, 100))
     
-    meta_txt = fuente.render(f"Niggers: {LARGO_VICTORIA}", True, "yellow")
+    meta_txt = fuente.render(f"llaves: {LARGO_VICTORIA}", True, "yellow")
     screen.blit(meta_txt, (x, 140))
 
 def refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo):
