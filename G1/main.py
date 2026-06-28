@@ -40,7 +40,7 @@ OBSTACULO = 1
 JUGADOR = 2
 MANZANA = 3
 LLAVE = 4
-LARGO_VICTORIA = 4
+LARGO_VICTORIA = 5
 
 # Tamaño del tablero
 # Si se cambian estas constantes, se debe modificar la definición
