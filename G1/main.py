@@ -41,7 +41,10 @@ JUGADOR = 2
 MANZANA = 3
 LLAVE = 4
 LARGO_VICTORIA = 5
+ENEMIGO = 6
 
+CANT_ENEMIGOS = 2
+RETRASO_ENEMIGOS= 300
 # Tamaño del tablero
 # Si se cambian estas constantes, se debe modificar la definición
 # del tablero que se encuentra en función reiniciar().
@@ -195,8 +198,17 @@ def refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo):
                     "yellow",
                         (pos_x + 10, pos_y + 10),
                         radio,
-                ),                    
-
+                )
+            
+            elif tablero[i][j] == ENEMIGO:
+                pygame.draw.rect(
+                    screen,
+                    "red",
+                    pygame.Rect(
+                        (pos_x + 10, pos_y + 10),
+                        (ancho_elem - 20, alto_elem - 20),
+                    )
+                ),
             # Estamos recorriendo los píxeles de la pantalla, por lo que
             # debemos sumar el ancho y altura en pixeles de cada elemento que
             # ya hayamos recorrido para avanzar al siguiente.
@@ -292,7 +304,7 @@ def avanzar(tablero, pos_jugador, direccion, llaves_comidas):
     # Obtenemos el elemento que se encuentre en el tablero en la nueva posición del jugador.
     pos_elem = tablero[ind_nueva_fila][ind_nueva_col]
 
-    if pos_elem == OBSTACULO:
+    if pos_elem == OBSTACULO or pos_elem == ENEMIGO:
         return "derrota", pos_jugador, llaves_comidas
 
     if pos_elem == MANZANA:
@@ -363,9 +375,33 @@ def reiniciar():
 
     # Colocamos al jugador en una posición aleatoria.
     pos_jugador = aparecer_aleatorio(tablero, JUGADOR)
+    pos_enemigos = []
 
-    return tablero, pos_jugador
+    for _ in range(CANT_ENEMIGOS):
+        pos_enemigos.append(aparecer_aleatorio(tablero,ENEMIGO))
+    return tablero, pos_jugador, pos_enemigos
 
+def obtener_direccion_aleatoria():
+    return random.choice([(0,-1),(0,1),(-1,0),(1,0)])
+
+def avanzar_enemigos(tablero, pos_enemigos):
+    for i in range(len(pos_enemigos)):
+
+        enemigo_actual =  pos_enemigos[i]
+        col, fil = enemigo_actual
+
+        dir_col, dir_fil = obtener_direccion_aleatoria()
+
+        nuevacol = col + dir_col
+        nuevafil = fil + dir_fil
+        if 0 <= nuevacol < COLUMNAS and 0 <= nuevafil < FILAS:
+            if tablero[nuevafil][nuevacol] == VACIO:
+                tablero[fil][col] = VACIO
+                tablero[nuevafil][nuevacol] = ENEMIGO
+                pos_enemigos[i] = (nuevacol, nuevafil)
+            elif tablero[nuevafil][nuevacol] == JUGADOR:
+                return "derrota", pos_enemigos
+    return "ok", pos_enemigos
 
 def mostrar_pantalla(screen, nombre_archivo):
     """
@@ -410,8 +446,10 @@ def main():
     estado = ESTADO_INICIO
     tablero = []
     pos_jugador = (0, 0)
+    pos_enemigos = []
     direccion = (0, 0)
     tiempo_ultimo_mov = 0
+    tiempo_ultimo_mov_evil= 0
     pasos = 0
     llaves_comidas=0 
     posiciones_cuerpo = [pos_jugador, direccion]
@@ -432,7 +470,7 @@ def main():
             if evento.type == pygame.KEYDOWN:
                 if estado == ESTADO_INICIO:
                     if evento.key == pygame.K_RETURN:
-                        tablero, pos_jugador = reiniciar()
+                        tablero, pos_jugador, pos_enemigos = reiniciar()
                         pasos= 0
                         direccion = (0, 0)
                         llaves_comidas=0
@@ -450,7 +488,7 @@ def main():
 
                 elif estado in (ESTADO_DERROTA, ESTADO_VICTORIA):
                     if evento.key == pygame.K_r:
-                        tablero, pos_jugador = reiniciar()
+                        tablero, pos_jugador, pos_enemigos = reiniciar()
                         pasos= 0
                         direccion = (0, 0)
                         llaves_comidas=0
@@ -466,7 +504,8 @@ def main():
                     direccion = cambiar_direccion(pygame.key.get_pressed(), direccion)
 
         if estado == ESTADO_JUGANDO:
-            tiempo_actual = pygame.time.get_ticks()  # En milisegundos
+            tiempo_actual = pygame.time.get_ticks()
+        
 
             # La variable RETRASO hace que si no han pasado esa cantidad de ticks,
             # entonces no se avanzará en el tablero.
@@ -492,7 +531,15 @@ def main():
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
                         refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo)
+                if tiempo_actual - tiempo_ultimo_mov_evil >= RETRASO_ENEMIGOS:
+                    resultado, pos_enemigos = avanzar_enemigos(tablero, pos_enemigos)
 
+                    if resultado == "derrota":
+                        estado = ESTADO_DERROTA
+                        mostrar_pantalla(screen, PANTALLA_DERROTA)
+                    else:
+                        tiempo_ultimo_mov_evil = tiempo_actual
+                        refrescar_tablero(screen,tablero, fuente, posiciones_cuerpo)
     pygame.quit()
 
 
