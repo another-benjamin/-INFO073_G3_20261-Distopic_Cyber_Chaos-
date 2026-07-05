@@ -1,0 +1,133 @@
+import os
+import pygame
+from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, LARGO_VICTORIA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, MANZANA, LLAVE, ENEMIGO, DIR_PANTALLAS
+
+
+def dibujar_panel(screen, fuente, llaves):
+    panel = pygame.Rect(LADO_TABLERO, 0, ANCHO_PANEL, ALTO_VENTANA)
+    pygame.draw.rect(screen, "gray15", panel)
+    
+    x = LADO_TABLERO + 24
+    
+    titulo = fuente.render("Cyborg", True, "white")
+    screen.blit(titulo, (x, 30))
+    
+    largo_txt = fuente.render(f"baterias: {llaves}", True, "white")
+    screen.blit(largo_txt, (x, 100))
+    
+    meta_txt = fuente.render(f"llaves: {LARGO_VICTORIA}", True, "yellow")
+    screen.blit(meta_txt, (x, 140))
+
+
+
+
+
+
+
+def refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo):
+    
+    # Rellena la pantalla con el color gris, básicamente pintando
+    # por encima de lo que estaba anteriormente.
+    
+    
+    screen.fill("gray30")
+
+
+    # Podemos calcular el tamaño en pixeles que tendrá cada
+    # casilla al dividir tanto la altura de la pantalla (screen.get_height())
+    # como el ancho (screen.get_width()) por la cantidad de filas y columnas respectivamente.
+    # Por ejemplo en este caso alto_elem sería 800 / 15 = 53.3, lo que nos indica que la
+    # altura de cada elemento es de 53.3 píxeles.
+    alto_elem = LADO_TABLERO / FILAS
+    ancho_elem = LADO_TABLERO / COLUMNAS
+    
+    
+    
+    # Como el jugador es un círculo, se necesita el radio.
+    radio = ancho_elem / 2
+
+
+    # Posición en eje "y" en unidad de píxeles.
+    pos_y = 0
+
+    for i in range(FILAS):
+        # Posición en eje "x" en unidad de píxeles.
+        pos_x = 0
+        for j in range(COLUMNAS):
+            if tablero[i][j] == OBSTACULO:
+                # Dibuja un rectángulo en la posición (pos_x, pos_y) y que sea
+                # de tamaño (ancho_elem, alto_elem) y color negro.
+                pygame.draw.rect(
+                    screen,
+                    "black",
+                    pygame.Rect((pos_x, pos_y), (ancho_elem, alto_elem)),
+                )
+            elif tablero[i][j] == JUGADOR:
+                # Dibujamos un círculo verde en la posición (pos_x + radio, pos_y + radio),
+                # con un radio definido por la variable "radio" (ancho_elem / 2).
+                pygame.draw.circle(
+                    screen,
+                    "#27F5E7",
+                    (pos_x + radio, pos_y + radio),
+                    radio,
+                )
+            elif tablero[i][j] == MANZANA:
+                pygame.draw.rect(
+                    screen,
+                    "green",
+                    # Acá reducimos el tamaño del rectángulo
+                    # para identificarlo más fácilmente
+                    pygame.Rect(
+                        (pos_x + 10, pos_y + 10),
+                        (ancho_elem - 20, alto_elem - 20),
+                    ),
+                )
+            elif tablero[i][j] == LLAVE:
+                pygame.draw.circle(
+                    screen,
+                    "yellow",
+                        (pos_x + 10, pos_y + 10),
+                        radio,
+                )
+            
+            elif tablero[i][j] == ENEMIGO:
+                pygame.draw.rect(
+                    screen,
+                    "red",
+                    pygame.Rect(
+                        (pos_x + 10, pos_y + 10),
+                        (ancho_elem - 20, alto_elem - 20),
+                    )
+                ),
+            # Estamos recorriendo los píxeles de la pantalla, por lo que
+            # debemos sumar el ancho y altura en pixeles de cada elemento que
+            # ya hayamos recorrido para avanzar al siguiente.
+            pos_x += ancho_elem
+        pos_y += alto_elem
+    dibujar_panel(screen, fuente, len(posiciones_cuerpo))
+    # Refresca el contenido que se ve en pantalla.
+    pygame.display.flip() 
+    
+    
+    
+
+    
+def mostrar_pantalla(screen, nombre_archivo):
+
+
+    ruta = os.path.join(DIR_PANTALLAS, nombre_archivo)
+
+    try:
+        imagen = pygame.image.load(ruta)
+        imagen = pygame.transform.scale(imagen, screen.get_size())
+
+        # Dibujamos la imagen en la pantalla en la coordenada (0, 0).
+        screen.blit(imagen, (0, 0))
+
+        # Refrescamos pantalla.
+        pygame.display.flip()
+    except FileNotFoundError:
+        # Fallback de seguridad en caso de que las imágenes no existan aún
+        screen.fill("black")
+        pygame.display.flip()
+        print(f"Advertencia: No se encontró la imagen {ruta}") 

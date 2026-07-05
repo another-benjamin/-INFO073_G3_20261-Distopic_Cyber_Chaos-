@@ -1,0 +1,104 @@
+
+-- Sobre def aparecer aleatorio -- 
+"""
+    Coloca un elemento en una casilla vacía aleatoria del tablero.
+
+    Parámetros:
+        - tablero: El tablero con sus posiciones actuales.
+        - id_elem: El número identificador del elemento que queremos colocar.
+
+    Retorna:
+        - (columna, fila): Tupla que indica posición en la que se colocó el elemento.
+    """
+    Debemos detectar los espacios vacíos, para ello recorremos
+    El tablero y almacenamos tuplas de (columna, fila) las posiciones
+    En las que un elemento "VACIO" (el número 0 en este caso) se encuentre.
+    Forma vista en clases de recorrer el arreglo multidimensional.
+    Tanto fila como columna son números. 
+      # Obtenemos el elemento que se encuentra en esa fila y columna.
+      # elem_pos = tablero[fila][columna]
+    
+
+
+-- Sobre def cambiar dirección -- 
+"""
+    Cambia la dirección del jugador.
+
+    Parámetros:
+        - keys: Arreglo de teclas presionadas.
+        - direccion_actual: La dirección en la que estaba avanzando justo antes de analizar
+            si hubo un cambio de dirección.
+
+    Retorna:
+        - direccion_actual: La nueva dirección del jugador.
+    """
+    para W
+    # La tupla nos indica que horizontalmente (columnas) no hará nada (0) y
+        # que verticalmente (filas) disminuirá el índice en el tablero (-1).
+     # Si no se presiona ninguna de las teclas anteriores, la dirección
+    # será la misma que la anterior.
+
+
+-- Sobre def avanzar --
+ """
+    Avanza el jugador un paso en la dirección dada.
+
+    Parámetros:
+        - tablero: El tablero con sus posiciones actuales.
+        - pos_jugador: Tupla con la posición actual (índice con
+            estructura (columna, fila)) del jugador en el tablero.
+        - direccion: Tupla con la dirección en la que está avanzando actualmente el jugador.
+
+    Retorna:
+        - (resultado, nueva_pos_jugador): Retorna el resultado que se obtiene
+            al avanzar (derrota, victoria o "ok" (no cambia de pantalla)) y la nueva posición del jugador.
+    """
+
+
+-- Sobre def poblar tablero -- 
+"""
+    Coloca un obstáculo y la manzana en el tablero.
+
+    Parámetros:
+        - tablero: El tablero con sus posiciones actuales.
+    """
+
+
+
+-- Sobre def reiniciar -- 
+ Formas de hacer el tablero 
+  # Usando dos bucles "for" anidados se haría de la siguiente manera:
+    # tablero = []
+    # for _ in range(FILAS):
+    #     fila_tablero = []
+    #
+    #     for _ in range(COLUMNAS):
+    #         fila_tablero.append(VACIO)
+    #
+    #     tablero.append(fila_tablero)
+    # Otra manera usando comprensión de listas:
+    # tablero = [[VACIO] * COLUMNAS for _ in range(FILAS)]
+    # El _ en el "for" indica que no usamos la variable con la que iteramos.
+
+
+
+
+-- Sobre refrescar tablero -- 
+"""
+    Dibuja el estado actual del tablero en la pantalla.
+
+    Parámetros:
+        - screen: La pantalla sobre la cual estamos dibujando.
+        - tablero: El tablero con sus posiciones actuales.
+    """
+
+
+
+-- Sobre mostrar pantalla --
+"""
+    Carga una imagen y la muestra escalada a la ventana.
+
+    Parámetros:
+        - screen: La pantalla donde colocaremos la imagen.
+        - nombre_archivo: El nombre del archivo de la imagen.
+    """
