@@ -531,7 +531,7 @@ def main():
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
                         refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo)
-                if tiempo_actual - tiempo_ultimo_mov_evil >= RETRASO_ENEMIGOS:
+                if estado == ESTADO_JUGANDO and tiempo_actual - tiempo_ultimo_mov_evil >= RETRASO_ENEMIGOS:
                     resultado, pos_enemigos = avanzar_enemigos(tablero, pos_enemigos)
 
                     if resultado == "derrota":
@@ -539,7 +539,8 @@ def main():
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
                         tiempo_ultimo_mov_evil = tiempo_actual
-                        refrescar_tablero(screen,tablero, fuente, posiciones_cuerpo)
+                        if estado == ESTADO_JUGANDO:
+                            refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo)
     pygame.quit()
 
 
