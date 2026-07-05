@@ -1,8 +1,6 @@
 from const import *
 from logic import cambiar_direccion, reiniciar, avanzar, avanzar_enemigos
-from render import refrescar_tablero, mostrar_pantalla
-
-import os
+from render import refrescar_tablero, mostrar_pantalla 
 import pygame
 
 def main():
