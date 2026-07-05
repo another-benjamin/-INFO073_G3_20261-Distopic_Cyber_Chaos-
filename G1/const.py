@@ -10,7 +10,7 @@ MAX_PASOS = 50
 CANT_OBSTACULOS = 10
 CANT_MANZANAS= 3
 CANT_LLAVES= 2
-LLAVES_PARA_GANAR=2
+LLAVES_PARA_GANAR= 2
 # Rutas a la carpeta de imágenes de pantallas
 DIR_PANTALLAS = os.path.join(os.path.dirname(__file__), "data", "pantallas")
 

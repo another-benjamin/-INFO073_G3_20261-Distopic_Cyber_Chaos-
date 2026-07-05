@@ -1,6 +1,6 @@
 import os
 import pygame
-from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, LARGO_VICTORIA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, MANZANA, LLAVE, ENEMIGO, DIR_PANTALLAS
+from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, MANZANA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR
 
 
 def dibujar_panel(screen, fuente, llaves):
@@ -9,13 +9,13 @@ def dibujar_panel(screen, fuente, llaves):
     
     x = LADO_TABLERO + 24
     
-    titulo = fuente.render("Cyborg", True, "white")
+    titulo = fuente.render("Cyborg", True, "orange")
     screen.blit(titulo, (x, 30))
     
-    largo_txt = fuente.render(f"baterias: {llaves}", True, "white")
+    largo_txt = fuente.render(f"Llaves: {llaves}", True, "white")
     screen.blit(largo_txt, (x, 100))
     
-    meta_txt = fuente.render(f"llaves: {LARGO_VICTORIA}", True, "yellow")
+    meta_txt = fuente.render(f"Llaves para ganar: {LLAVES_PARA_GANAR}", True, "yellow")
     screen.blit(meta_txt, (x, 140))
 
 
@@ -24,7 +24,7 @@ def dibujar_panel(screen, fuente, llaves):
 
 
 
-def refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo):
+def refrescar_tablero(screen, tablero, fuente, llaves):
     
     # Rellena la pantalla con el color gris, básicamente pintando
     # por encima de lo que estaba anteriormente.
@@ -86,7 +86,7 @@ def refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo):
                 pygame.draw.circle(
                     screen,
                     "yellow",
-                        (pos_x + 10, pos_y + 10),
+                        (pos_x + radio, pos_y + radio),
                         radio,
                 )
             
@@ -104,7 +104,7 @@ def refrescar_tablero(screen, tablero, fuente, posiciones_cuerpo):
             # ya hayamos recorrido para avanzar al siguiente.
             pos_x += ancho_elem
         pos_y += alto_elem
-    dibujar_panel(screen, fuente, len(posiciones_cuerpo))
+    dibujar_panel(screen, fuente, llaves)
     # Refresca el contenido que se ve en pantalla.
     pygame.display.flip() 
     
