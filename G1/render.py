@@ -1,6 +1,6 @@
 import os
 import pygame
-from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, MANZANA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR
+from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE
 
 
 def dibujar_panel(screen, fuente, llaves):
@@ -29,7 +29,10 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
     # Rellena la pantalla con el color gris, básicamente pintando
     # por encima de lo que estaba anteriormente.
     
-    
+    ruta_bateria = os.path.join(DIR_SPRITES, BATERIA_SPRITE)
+    bateria_imagen = pygame.image.load(ruta_bateria)
+    ruta_llaves = os.path.join(DIR_SPRITES, LLAVES_SPRITE)
+    llaves_imagen = pygame.image.load(ruta_llaves)
     screen.fill("gray30")
 
 
@@ -71,25 +74,11 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
                     (pos_x + radio, pos_y + radio),
                     radio,
                 )
-            elif tablero[i][j] == MANZANA:
-                pygame.draw.rect(
-                    screen,
-                    "green",
-                    # Acá reducimos el tamaño del rectángulo
-                    # para identificarlo más fácilmente
-                    pygame.Rect(
-                        (pos_x + 10, pos_y + 10),
-                        (ancho_elem - 20, alto_elem - 20),
-                    ),
-                )
+            elif tablero[i][j] == BATERIA:
+                screen.blit(bateria_imagen,(pos_x, pos_y))
             elif tablero[i][j] == LLAVE:
-                pygame.draw.circle(
-                    screen,
-                    "yellow",
-                        (pos_x + radio, pos_y + radio),
-                        radio,
-                )
-            
+                screen.blit(llaves_imagen,(pos_x, pos_y))
+
             elif tablero[i][j] == ENEMIGO:
                 pygame.draw.rect(
                     screen,
@@ -107,8 +96,6 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
     dibujar_panel(screen, fuente, llaves)
     # Refresca el contenido que se ve en pantalla.
     pygame.display.flip() 
-    
-    
     
 
     

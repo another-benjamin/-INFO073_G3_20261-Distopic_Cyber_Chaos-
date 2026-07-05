@@ -8,11 +8,12 @@ ESTADO_DERROTA = "derrota"
 ESTADO_VICTORIA = "victoria"
 MAX_PASOS = 50 
 CANT_OBSTACULOS = 10
-CANT_MANZANAS= 3
-CANT_LLAVES= 2
-LLAVES_PARA_GANAR= 2
+CANT_BATERIAS= 1
+CANT_LLAVES= 1
+LLAVES_PARA_GANAR= 3
 # Rutas a la carpeta de imágenes de pantallas
 DIR_PANTALLAS = os.path.join(os.path.dirname(__file__), "data", "pantallas")
+DIR_SPRITES = os.path.join(os.path.dirname(__file__), "data", "sprites")
 
 # Se específica el nombre del archivo para cada imagen de pantalla.
 # El formato de imagen utilizado puede ser PNG, JPG/JPEG, BMP, o GIF.
@@ -20,6 +21,9 @@ PANTALLA_INICIO = "pantalla_inicio.bmp"
 PANTALLA_INSTRUCCIONES = "pantalla_instrucciones.bmp"
 PANTALLA_VICTORIA = "pantalla_victoria.bmp"
 PANTALLA_DERROTA = "pantalla_derrota.bmp"
+
+BATERIA_SPRITE = "Bateria.png"
+LLAVES_SPRITE = "Llaves.png"
 
 #tamaño pantalla
 ANCHO_VENTANA = 1200
@@ -34,10 +38,9 @@ RETRASO = 200
 VACIO = 0
 OBSTACULO = 1
 JUGADOR = 2
-MANZANA = 3
+BATERIA = 3
 LLAVE = 4
-LARGO_VICTORIA = 5
-ENEMIGO = 6
+ENEMIGO = 5
 
 CANT_ENEMIGOS = 2
 RETRASO_ENEMIGOS= 300

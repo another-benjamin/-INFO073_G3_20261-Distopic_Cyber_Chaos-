@@ -1,7 +1,7 @@
 import random
 import pygame
 
-from const import FILAS, COLUMNAS, VACIO, BORDE, JUGADOR, ENEMIGO, CANT_ENEMIGOS, LLAVE, CANT_MANZANAS, OBSTACULO, CANT_OBSTACULOS, MANZANA, LLAVES_PARA_GANAR, CANT_LLAVES
+from const import FILAS, COLUMNAS, VACIO, BORDE, JUGADOR, ENEMIGO, CANT_ENEMIGOS, LLAVE, CANT_BATERIAS, OBSTACULO, CANT_OBSTACULOS, BATERIA, LLAVES_PARA_GANAR, CANT_LLAVES
 
 
 
@@ -73,15 +73,16 @@ def avanzar(tablero, pos_jugador, direccion, llaves_comidas):
 
     if pos_elem == OBSTACULO or pos_elem == ENEMIGO:
         return "derrota", pos_jugador, llaves_comidas
-    if pos_elem == MANZANA:
+    if pos_elem == BATERIA:
         tablero[ind_actual_fila][ind_actual_col] = VACIO
         tablero[ind_nueva_fila][ind_nueva_col] = JUGADOR
-        aparecer_aleatorio(tablero, MANZANA)
+        aparecer_aleatorio(tablero, BATERIA)
         return "regenerar", (ind_nueva_col, ind_nueva_fila), llaves_comidas
     if pos_elem == LLAVE:
         llaves_comidas += 1
         tablero [ ind_actual_fila ][ ind_actual_col ] = VACIO
         tablero [ ind_nueva_fila][ind_nueva_col]=JUGADOR
+        aparecer_aleatorio(tablero, LLAVE)
         if llaves_comidas == LLAVES_PARA_GANAR :
             return "victoria", ( ind_nueva_col , ind_nueva_fila ) ,llaves_comidas
         return "ok", ( ind_nueva_col , ind_nueva_fila ) , llaves_comidas
@@ -102,8 +103,8 @@ def poblar_tablero(tablero):
     
     for i in range(CANT_OBSTACULOS):
         aparecer_aleatorio(tablero, OBSTACULO, incluir_borde = False)
-    for i in range(CANT_MANZANAS):
-        aparecer_aleatorio(tablero, MANZANA, incluir_borde = False)
+    for i in range(CANT_BATERIAS):
+        aparecer_aleatorio(tablero, BATERIA, incluir_borde = False)
     for i in range(CANT_LLAVES):
         aparecer_aleatorio(tablero, LLAVE,incluir_borde=False)
 

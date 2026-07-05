@@ -54,6 +54,8 @@ def main():
                     elif evento.key == pygame.K_i:
                         estado = ESTADO_INSTRUCCIONES
                         mostrar_pantalla(screen, PANTALLA_INSTRUCCIONES)
+                    elif evento.key == pygame.K_ESCAPE:
+                        running = False
 
                 elif estado == ESTADO_INSTRUCCIONES:
                     estado = ESTADO_INICIO
