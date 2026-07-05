@@ -151,16 +151,57 @@ def obtener_direccion_aleatoria():
     return random.choice([(0,-1),(0,1),(-1,0),(1,0)])
 
 
-def avanzar_enemigos(tablero, pos_enemigos):
+def avanzar_enemigos(tablero, pos_enemigos, pos_jugador):
+    # Extraemos las coordenadas del jugador
+    col_jugador, fil_jugador = pos_jugador
+    
     for i in range(len(pos_enemigos)):
+        col, fil = pos_enemigos[i]
 
-        enemigo_actual =  pos_enemigos[i]
-        col, fil = enemigo_actual
+        # 1. Determinar las direcciones ideales para acercarse al jugador
+        posibles_direcciones = []
+        
+        # Eje X (Columnas)
+        if col_jugador > col:
+            posibles_direcciones.append((1, 0))  # Mover a la Derecha
+        elif col_jugador < col:
+            posibles_direcciones.append((-1, 0)) # Mover a la Izquierda
+            
+        # Eje Y (Filas)
+        if fil_jugador > fil:
+            posibles_direcciones.append((0, 1))  # Mover Abajo
+        elif fil_jugador < fil:
+            posibles_direcciones.append((0, -1)) # Mover Arriba
 
-        dir_col, dir_fil = obtener_direccion_aleatoria()
+        # Mezclamos las opciones un poco para que no siempre prioricen el mismo eje
+        # Esto hace que el movimiento se vea más natural
+        random.shuffle(posibles_direcciones)
 
+        # 2. Elegir la primera dirección válida
+        dir_col, dir_fil = 0, 0
+        movimiento_exitoso = False
+        
+        # Intentar avanzar en las direcciones que lo acercan al jugador
+        for d_col, d_fil in posibles_direcciones:
+            nuevacol = col + d_col
+            nuevafil = fil + d_fil
+            
+            # Verificar si el camino está dentro del mapa
+            if 0 <= nuevacol < COLUMNAS and 0 <= nuevafil < FILAS:
+                # Si la casilla está vacía O es el jugador, es un buen camino
+                if tablero[nuevafil][nuevacol] in (VACIO, JUGADOR):
+                    dir_col, dir_fil = d_col, d_fil
+                    movimiento_exitoso = True
+                    break # Encontramos ruta, dejamos de buscar
+
+        # 3. Plan B: Si no puede avanzar hacia el jugador (está bloqueado por una pared/obstáculo)
+        if not movimiento_exitoso:
+            dir_col, dir_fil = obtener_direccion_aleatoria()
+        
+        # 4. Aplicar el movimiento final
         nuevacol = col + dir_col
         nuevafil = fil + dir_fil
+        
         if 0 <= nuevacol < COLUMNAS and 0 <= nuevafil < FILAS:
             if tablero[nuevafil][nuevacol] == VACIO:
                 tablero[fil][col] = VACIO
@@ -168,7 +209,7 @@ def avanzar_enemigos(tablero, pos_enemigos):
                 pos_enemigos[i] = (nuevacol, nuevafil)
             elif tablero[nuevafil][nuevacol] == JUGADOR:
                 return "derrota", pos_enemigos
+                
     return "ok", pos_enemigos
-
 
 

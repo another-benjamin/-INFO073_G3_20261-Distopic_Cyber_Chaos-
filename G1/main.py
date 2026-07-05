@@ -105,7 +105,7 @@ def main():
                     else:
                         refrescar_tablero(screen, tablero, fuente, llaves_comidas)
                 if estado == ESTADO_JUGANDO and tiempo_actual - tiempo_ultimo_mov_evil >= RETRASO_ENEMIGOS:
-                    resultado, pos_enemigos = avanzar_enemigos(tablero, pos_enemigos)
+                    resultado, pos_enemigos = avanzar_enemigos(tablero, pos_enemigos, pos_jugador)
 
                     if resultado == "derrota":
                         estado = ESTADO_DERROTA
