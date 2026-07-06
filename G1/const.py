@@ -7,9 +7,9 @@ ESTADO_JUGANDO = "jugando"
 ESTADO_DERROTA = "derrota"
 ESTADO_VICTORIA = "victoria"
 ESTADO_OPCIONES = "opciones"
-MAX_PASOS = 50 
+MAX_PASOS = 30
 CANT_OBSTACULOS = 10
-CANT_BATERIAS= 1
+CANT_BATERIAS= 2
 CANT_LLAVES= 1
 LLAVES_PARA_GANAR= 3
 # Rutas a la carpeta de imágenes de pantallas
