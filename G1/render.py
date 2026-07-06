@@ -24,7 +24,7 @@ def dibujar_panel(screen, fuente, llaves):
 
 
 
-def refrescar_tablero(screen, tablero, fuente, llaves):
+def refrescar_tablero(screen, tablero, fuente, llaves, direccion):
     
     # Rellena la pantalla con el color gris, básicamente pintando
     # por encima de lo que estaba anteriormente.
@@ -37,6 +37,13 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
     enemigo_imagen = pygame.image.load(ruta_enemigo)
     ruta_jugador_frente = os.path.join(DIR_SPRITES, Jugador_spriteF)
     jugador_imagen = pygame.image.load(ruta_jugador_frente)
+    ruta_jugador_izquierda = os.path.join(DIR_SPRITES, "Cyborg_left.png")
+    jugador_izquierda_imagen = pygame.image.load(ruta_jugador_izquierda)
+    # Crear sprite derecha volteando el sprite izquierdo
+    jugador_derecha_imagen = pygame.transform.flip(jugador_izquierda_imagen, True, False)
+    ruta_jugador_atras = os.path.join(DIR_SPRITES, "cyborg_deatras.png")
+    jugador_atras_imagen = pygame.image.load(ruta_jugador_atras)
+
     screen.fill("gray30")
 
 
@@ -70,10 +77,17 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
                     pygame.Rect((pos_x, pos_y), (ancho_elem, alto_elem)),
                 )
             elif tablero[i][j] == JUGADOR:
-                # Dibujamos un círculo verde en la posición (pos_x + radio, pos_y + radio),
-                # con un radio definido por la variable "radio" (ancho_elem / 2).
-                screen.blit(jugador_imagen,(pos_x,pos_y)
-                )
+                if direccion == (0, 1):  # Abajo
+                    screen.blit(jugador_imagen,(pos_x,pos_y))
+                elif direccion == (0, -1):  # Arriba
+                    screen.blit(jugador_atras_imagen,(pos_x,pos_y))
+                elif direccion == (-1, 0):  # Izquierda
+                    screen.blit(jugador_izquierda_imagen,(pos_x,pos_y))
+                elif direccion == (1, 0):  # Derecha
+                    screen.blit(jugador_derecha_imagen,(pos_x,pos_y))
+                else:  # Por defecto (sin movimiento aún)
+                    screen.blit(jugador_imagen,(pos_x,pos_y))
+
             elif tablero[i][j] == BATERIA:
                 screen.blit(bateria_imagen,(pos_x, pos_y))
             

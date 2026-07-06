@@ -53,7 +53,7 @@ def main():
                         # Obtiene tiempo en milisegundos
                         tiempo_ultimo_mov = pygame.time.get_ticks()
                         estado = ESTADO_JUGANDO
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
                     elif evento.key == pygame.K_i:
                         estado = ESTADO_INSTRUCCIONES
                         mostrar_pantalla(screen, PANTALLA_INSTRUCCIONES)
@@ -95,7 +95,7 @@ def main():
                         llaves_comidas=0
                         tiempo_ultimo_mov = pygame.time.get_ticks()
                         estado = ESTADO_JUGANDO
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
 
                     if evento.key == pygame.K_ESCAPE:
                         estado = ESTADO_INICIO
@@ -131,7 +131,7 @@ def main():
                         estado = ESTADO_DERROTA
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
                 if estado == ESTADO_JUGANDO and tiempo_actual - tiempo_ultimo_mov_evil >= RETRASO_ENEMIGOS:
                     resultado, pos_enemigos = avanzar_enemigos(tablero, pos_enemigos, pos_jugador)
 
@@ -140,9 +140,9 @@ def main():
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
                         tiempo_ultimo_mov_evil = tiempo_actual
-                        refrescar_tablero(screen,tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen,tablero, fuente, llaves_comidas, direccion)
                     if estado == ESTADO_JUGANDO:
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
     pygame.quit()
 
 
