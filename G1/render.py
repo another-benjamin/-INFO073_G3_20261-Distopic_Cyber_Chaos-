@@ -1,6 +1,6 @@
 import os
 import pygame
-from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE, ENEMIGO_SPRITE, Jugador_spriteF
+from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE, ENEMIGO_SPRITE, Jugador_spriteF, FLOOR, OBSTACULO_SPRITE
 
 
 def dibujar_panel(screen, fuente, llaves):
@@ -37,7 +37,11 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
     enemigo_imagen = pygame.image.load(ruta_enemigo)
     ruta_jugador_frente = os.path.join(DIR_SPRITES, Jugador_spriteF)
     jugador_imagen = pygame.image.load(ruta_jugador_frente)
-    screen.fill("gray30")
+    ruta_baldosa = os.path.join(DIR_SPRITES, FLOOR)
+    baldosa = pygame.image.load(ruta_baldosa)
+    ruta_obstaculo = os.path.join(DIR_SPRITES,OBSTACULO_SPRITE )
+    obstaculo_imagen = pygame.image.load(ruta_obstaculo)
+    screen.fill((80, 115, 115))
 
 
     # Podemos calcular el tamaño en pixeles que tendrá cada
@@ -56,7 +60,14 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
 
     # Posición en eje "y" en unidad de píxeles.
     pos_y = 0
-
+    for i in range(FILAS):
+        # Posición en eje "x" en unidad de píxeles.
+        pos_x = 0
+        for j in range(COLUMNAS):
+            pos_x= j * ancho_elem
+            pos_y= i * alto_elem
+            screen.blit(baldosa,[pos_x,pos_y])
+    pos_y = 0
     for i in range(FILAS):
         # Posición en eje "x" en unidad de píxeles.
         pos_x = 0
@@ -64,10 +75,7 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
             if tablero[i][j] == OBSTACULO:
                 # Dibuja un rectángulo en la posición (pos_x, pos_y) y que sea
                 # de tamaño (ancho_elem, alto_elem) y color negro.
-                pygame.draw.rect(
-                    screen,
-                    "black",
-                    pygame.Rect((pos_x, pos_y), (ancho_elem, alto_elem)),
+                screen.blit(obstaculo_imagen,(pos_x,pos_y)
                 )
             elif tablero[i][j] == JUGADOR:
                 # Dibujamos un círculo verde en la posición (pos_x + radio, pos_y + radio),
