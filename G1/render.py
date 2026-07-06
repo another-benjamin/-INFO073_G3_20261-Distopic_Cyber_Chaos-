@@ -1,6 +1,6 @@
 import os
 import pygame
-from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE
+from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE, ENEMIGO_SPRITE, Jugador_spriteF
 
 
 def dibujar_panel(screen, fuente, llaves):
@@ -33,6 +33,10 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
     bateria_imagen = pygame.image.load(ruta_bateria)
     ruta_llaves = os.path.join(DIR_SPRITES, LLAVES_SPRITE)
     llaves_imagen = pygame.image.load(ruta_llaves)
+    ruta_enemigo = os.path.join(DIR_SPRITES, ENEMIGO_SPRITE)
+    enemigo_imagen = pygame.image.load(ruta_enemigo)
+    ruta_jugador_frente = os.path.join(DIR_SPRITES, Jugador_spriteF)
+    jugador_imagen = pygame.image.load(ruta_jugador_frente)
     screen.fill("gray30")
 
 
@@ -68,26 +72,16 @@ def refrescar_tablero(screen, tablero, fuente, llaves):
             elif tablero[i][j] == JUGADOR:
                 # Dibujamos un círculo verde en la posición (pos_x + radio, pos_y + radio),
                 # con un radio definido por la variable "radio" (ancho_elem / 2).
-                pygame.draw.circle(
-                    screen,
-                    "#27F5E7",
-                    (pos_x + radio, pos_y + radio),
-                    radio,
+                screen.blit(jugador_imagen,(pos_x,pos_y)
                 )
             elif tablero[i][j] == BATERIA:
                 screen.blit(bateria_imagen,(pos_x, pos_y))
+            
             elif tablero[i][j] == LLAVE:
                 screen.blit(llaves_imagen,(pos_x, pos_y))
 
             elif tablero[i][j] == ENEMIGO:
-                pygame.draw.rect(
-                    screen,
-                    "red",
-                    pygame.Rect(
-                        (pos_x + 10, pos_y + 10),
-                        (ancho_elem - 20, alto_elem - 20),
-                    )
-                ),
+                screen.blit(enemigo_imagen,(pos_x,pos_y))
             # Estamos recorriendo los píxeles de la pantalla, por lo que
             # debemos sumar el ancho y altura en pixeles de cada elemento que
             # ya hayamos recorrido para avanzar al siguiente.

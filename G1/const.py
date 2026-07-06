@@ -24,7 +24,8 @@ PANTALLA_DERROTA = "pantalla_derrota.bmp"
 
 BATERIA_SPRITE = "Bateria.png"
 LLAVES_SPRITE = "Llaves.png"
-
+ENEMIGO_SPRITE = "ENEMIGO_SPRITE.png"
+Jugador_spriteF = "cyborg_front.png"
 #tamaño pantalla
 ANCHO_VENTANA = 1200
 ALTO_VENTANA = 800
