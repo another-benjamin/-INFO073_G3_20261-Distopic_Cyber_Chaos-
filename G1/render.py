@@ -1,6 +1,6 @@
 import os
 import pygame
-from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE, ENEMIGO_SPRITE, Jugador_spriteF
+from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE, ENEMIGO_SPRITE, Jugador_spriteF, PANTALLA_INICIO
 
 
 def dibujar_panel(screen, fuente, llaves):
@@ -111,4 +111,28 @@ def mostrar_pantalla(screen, nombre_archivo):
         # Fallback de seguridad en caso de que las imágenes no existan aún
         screen.fill("black")
         pygame.display.flip()
-        print(f"Advertencia: No se encontró la imagen {ruta}") 
+        print(f"Advertencia: No se encontró la imagen {ruta}")
+        
+
+def mostrar_volumen(screen, fuente, volumen):
+    mostrar_pantalla(screen, PANTALLA_INICIO)
+    
+    porcentaje = volumen * 10 
+    txt_titulo = fuente.render("VOLUMEN", True, "orange")
+    txt_volumen = fuente.render(f"Música: {porcentaje}%", True, "white")
+    txt_instrucciones = fuente.render("Left/Right", True, "yellow")
+    txt_volver = fuente.render("[ESC] para regresar", True, "red")
+    
+    
+    x_pos = LADO_TABLERO + 24
+    screen.blit(txt_titulo, (x_pos, 250))
+    screen.blit(txt_volumen, (x_pos, 300))
+    screen.blit(txt_instrucciones, (x_pos, 380))
+    screen.blit(txt_volver, (x_pos, 460)) 
+    
+    ancho_barra_verde = volumen * 20
+    
+    pygame.draw.rect(screen, "gray15", pygame.Rect(x_pos, 355, 200, 15))
+    pygame.draw.rect(screen, "green", pygame.Rect(x_pos, 355, ancho_barra_verde, 15))
+    
+    pygame.display.flip()
