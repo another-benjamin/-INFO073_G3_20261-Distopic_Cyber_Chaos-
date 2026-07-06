@@ -12,7 +12,7 @@ def main():
     # Establecemos el título de la ventana.
     pygame.display.set_caption("Juego Básico")
     
-    fuente = pygame.font.SysFont("comic sans", 36)
+    fuente = pygame.font.SysFont("times new roman", 36)
 
     running = True
 
@@ -37,6 +37,7 @@ def main():
     # está aquí.
     while running:
         # Se analizan los eventos del bucle actual.
+        pygame.display.set_caption(f"DYSTOPIC")
         for evento in pygame.event.get():
             # Si es que se quiere cerrar la ventana.
             if evento.type == pygame.QUIT:
@@ -53,7 +54,7 @@ def main():
                         # Obtiene tiempo en milisegundos
                         tiempo_ultimo_mov = pygame.time.get_ticks()
                         estado = ESTADO_JUGANDO
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion, pasos)
                     elif evento.key == pygame.K_i:
                         estado = ESTADO_INSTRUCCIONES
                         mostrar_pantalla(screen, PANTALLA_INSTRUCCIONES)
@@ -95,7 +96,7 @@ def main():
                         llaves_comidas=0
                         tiempo_ultimo_mov = pygame.time.get_ticks()
                         estado = ESTADO_JUGANDO
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion, pasos)
 
                     if evento.key == pygame.K_ESCAPE:
                         estado = ESTADO_INICIO
@@ -122,8 +123,6 @@ def main():
                 else:
                     tiempo_ultimo_mov = tiempo_actual
                     pasos +=1
-                    restantes = MAX_PASOS - pasos
-                    pygame.display.set_caption(f"juego - pasos restantes: {restantes}")
                     if resultado == "regenerar":
                         pasos = 0
                         
@@ -131,7 +130,7 @@ def main():
                         estado = ESTADO_DERROTA
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion, pasos)
                 if estado == ESTADO_JUGANDO and tiempo_actual - tiempo_ultimo_mov_evil >= RETRASO_ENEMIGOS:
                     resultado, pos_enemigos = avanzar_enemigos(tablero, pos_enemigos, pos_jugador)
 
@@ -140,9 +139,9 @@ def main():
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
                         tiempo_ultimo_mov_evil = tiempo_actual
-                        refrescar_tablero(screen,tablero, fuente, llaves_comidas, direccion)
+                        refrescar_tablero(screen,tablero, fuente, llaves_comidas, direccion, pasos)
                     if estado == ESTADO_JUGANDO:
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion, pasos)
     pygame.quit()
 
 

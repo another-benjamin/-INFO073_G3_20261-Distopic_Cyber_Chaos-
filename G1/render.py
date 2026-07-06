@@ -1,9 +1,9 @@
 import os
 import pygame
-from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE, ENEMIGO_SPRITE, Jugador_spriteF, PANTALLA_INICIO
+from const import LADO_TABLERO, ANCHO_PANEL, ALTO_VENTANA, FILAS, COLUMNAS, OBSTACULO, JUGADOR, BATERIA, LLAVE, ENEMIGO, DIR_PANTALLAS, LLAVES_PARA_GANAR, DIR_SPRITES, BATERIA_SPRITE, LLAVES_SPRITE, ENEMIGO_SPRITE, Jugador_spriteF, PANTALLA_INICIO, MAX_PASOS
 
 
-def dibujar_panel(screen, fuente, llaves):
+def dibujar_panel(screen, fuente, llaves, pasos):
     panel = pygame.Rect(LADO_TABLERO, 0, ANCHO_PANEL, ALTO_VENTANA)
     pygame.draw.rect(screen, "gray15", panel)
     
@@ -17,6 +17,8 @@ def dibujar_panel(screen, fuente, llaves):
     
     meta_txt = fuente.render(f"Llaves para ganar: {LLAVES_PARA_GANAR}", True, "yellow")
     screen.blit(meta_txt, (x, 140))
+    pasos_txt = fuente.render(f"Pasos restantes: {MAX_PASOS - pasos}", True, "green")
+    screen.blit(pasos_txt, (x+130, 30))
 
 
 
@@ -24,7 +26,7 @@ def dibujar_panel(screen, fuente, llaves):
 
 
 
-def refrescar_tablero(screen, tablero, fuente, llaves, direccion):
+def refrescar_tablero(screen, tablero, fuente, llaves, direccion, pasos):
     
     # Rellena la pantalla con el color gris, básicamente pintando
     # por encima de lo que estaba anteriormente.
@@ -101,7 +103,7 @@ def refrescar_tablero(screen, tablero, fuente, llaves, direccion):
             # ya hayamos recorrido para avanzar al siguiente.
             pos_x += ancho_elem
         pos_y += alto_elem
-    dibujar_panel(screen, fuente, llaves)
+    dibujar_panel(screen, fuente, llaves, pasos)
     # Refresca el contenido que se ve en pantalla.
     pygame.display.flip() 
     
