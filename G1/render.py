@@ -18,7 +18,7 @@ def dibujar_panel(screen, fuente, llaves, pasos):
     meta_txt = fuente.render(f"Llaves para ganar: {LLAVES_PARA_GANAR}", True, "yellow")
     screen.blit(meta_txt, (x, 140))
     pasos_txt = fuente.render(f"Pasos restantes: {MAX_PASOS - pasos}", True, "green")
-    screen.blit(pasos_txt, (x+130, 30))
+    screen.blit(pasos_txt, (x, 60))
 
 
 
