@@ -1,6 +1,6 @@
 from const import *
 from logic import cambiar_direccion, reiniciar, avanzar, avanzar_enemigos
-from render import refrescar_tablero, mostrar_pantalla 
+from render import refrescar_tablero, mostrar_pantalla, mostrar_volumen
 import pygame
 
 def main():
@@ -26,9 +26,12 @@ def main():
     pasos = 0
     llaves_comidas= 0 
     posiciones_cuerpo = [pos_jugador, direccion]
+    
+    volumen_musica = VOLUMEN_INICIAL
 
     mostrar_pantalla(screen, PANTALLA_INICIO)
     pygame.mixer.music.load ("g1/data/music/Gary VS David - Beloga.mp3")
+    pygame.mixer.music.set_volume(volumen_musica / 10.0)
     pygame.mixer.music.play ( -1)
     # Este es el bucle principal del juego, todo lo que sucede en el juego
     # está aquí.
@@ -50,16 +53,39 @@ def main():
                         # Obtiene tiempo en milisegundos
                         tiempo_ultimo_mov = pygame.time.get_ticks()
                         estado = ESTADO_JUGANDO
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
                     elif evento.key == pygame.K_i:
                         estado = ESTADO_INSTRUCCIONES
                         mostrar_pantalla(screen, PANTALLA_INSTRUCCIONES)
+                    # agregado tecla opcines para controlar volumen, 
+                    # 
+                    # llamado función modulo en render.py
+                    #
+                    elif evento.key == pygame.K_o:
+                        estado = ESTADO_OPCIONES
+                        from render import mostrar_volumen
+                        mostrar_volumen(screen, fuente, volumen_musica)
                     elif evento.key == pygame.K_ESCAPE:
                         running = False
 
                 elif estado == ESTADO_INSTRUCCIONES:
                     estado = ESTADO_INICIO
                     mostrar_pantalla(screen, PANTALLA_INICIO)
+                
+                elif estado == ESTADO_OPCIONES:
+                    if evento.key == pygame.K_ESCAPE:
+                        estado = ESTADO_INICIO
+                        mostrar_pantalla(screen, PANTALLA_INICIO)
+                    elif evento.key == pygame.K_LEFT:
+                        volumen_musica = max(0, volumen_musica - PASO_VOLUMEN)
+                        pygame.mixer.music.set_volume(volumen_musica / 10.0)
+                        from render import mostrar_volumen
+                        mostrar_volumen(screen, fuente, volumen_musica)
+                    elif evento.key == pygame.K_RIGHT:
+                        volumen_musica = min(10, volumen_musica + PASO_VOLUMEN)
+                        pygame.mixer.music.set_volume(volumen_musica / 10.0)
+                        from render import mostrar_volumen
+                        mostrar_volumen(screen, fuente, volumen_musica)
 
                 elif estado in (ESTADO_DERROTA, ESTADO_VICTORIA):
                     if evento.key == pygame.K_r:
@@ -69,7 +95,7 @@ def main():
                         llaves_comidas=0
                         tiempo_ultimo_mov = pygame.time.get_ticks()
                         estado = ESTADO_JUGANDO
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
 
                     if evento.key == pygame.K_ESCAPE:
                         estado = ESTADO_INICIO
@@ -105,7 +131,7 @@ def main():
                         estado = ESTADO_DERROTA
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
                 if estado == ESTADO_JUGANDO and tiempo_actual - tiempo_ultimo_mov_evil >= RETRASO_ENEMIGOS:
                     resultado, pos_enemigos = avanzar_enemigos(tablero, pos_enemigos, pos_jugador)
 
@@ -114,9 +140,9 @@ def main():
                         mostrar_pantalla(screen, PANTALLA_DERROTA)
                     else:
                         tiempo_ultimo_mov_evil = tiempo_actual
-                        refrescar_tablero(screen,tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen,tablero, fuente, llaves_comidas, direccion)
                     if estado == ESTADO_JUGANDO:
-                        refrescar_tablero(screen, tablero, fuente, llaves_comidas)
+                        refrescar_tablero(screen, tablero, fuente, llaves_comidas, direccion)
     pygame.quit()
 
 

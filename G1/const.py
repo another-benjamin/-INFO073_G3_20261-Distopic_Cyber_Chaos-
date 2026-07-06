@@ -6,6 +6,7 @@ ESTADO_INSTRUCCIONES = "instrucciones"
 ESTADO_JUGANDO = "jugando"
 ESTADO_DERROTA = "derrota"
 ESTADO_VICTORIA = "victoria"
+ESTADO_OPCIONES = "opciones"
 MAX_PASOS = 50 
 CANT_OBSTACULOS = 10
 CANT_BATERIAS= 1
@@ -35,7 +36,12 @@ LADO_TABLERO = 800
 ANCHO_PANEL = ANCHO_VENTANA - LADO_TABLERO
 
 # Para evitar que el jugador se mueva demasiado rápido
-RETRASO = 200
+RETRASO = 200 
+
+#SONIDO
+VOLUMEN_INICIAL = 4
+PASO_VOLUMEN = 1
+
 
 # Códigos de cada elemento del tablero
 VACIO = 0

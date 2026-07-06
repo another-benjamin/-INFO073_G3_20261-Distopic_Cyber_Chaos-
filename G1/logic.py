@@ -73,11 +73,13 @@ def avanzar(tablero, pos_jugador, direccion, llaves_comidas):
 
     if pos_elem == OBSTACULO or pos_elem == ENEMIGO:
         return "derrota", pos_jugador, llaves_comidas
+
     if pos_elem == BATERIA:
         tablero[ind_actual_fila][ind_actual_col] = VACIO
         tablero[ind_nueva_fila][ind_nueva_col] = JUGADOR
         aparecer_aleatorio(tablero, BATERIA)
         return "regenerar", (ind_nueva_col, ind_nueva_fila), llaves_comidas
+
     if pos_elem == LLAVE:
         llaves_comidas += 1
         tablero [ ind_actual_fila ][ ind_actual_col ] = VACIO
